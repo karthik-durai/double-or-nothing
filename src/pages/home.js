@@ -68,8 +68,8 @@ function Home(props) {
       const { data } = await axios.get(
         "https://s3-ap-southeast-1.amazonaws.com/he-public-data/bets7747a43.json"
       );
-      let localData = localStorage.getItem("state") || [];
-      localData = JSON.parse(localData);
+      let localData = localStorage.getItem("state");
+      localData = localData ? JSON.parse(localData) : [];
       const modifiedData = data.map((item) => {
         const localUserData = localData.find((user) => user.Name === item.Name);
         item.wins = localUserData?.wins || 0;
@@ -81,6 +81,7 @@ function Home(props) {
       });
       props.addUsers(modifiedData);
     } catch (e) {
+      console.log(e);
       props.addUsers([]);
     }
   }
